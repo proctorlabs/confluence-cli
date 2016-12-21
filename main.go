@@ -15,6 +15,7 @@ type cliOptions struct {
 	title    string
 	spaceKey string
 	filepath string
+	bodyOnly bool
 }
 
 func main() {
@@ -24,6 +25,7 @@ func main() {
 	flag.StringVar(&options.title, "t", "", "Title to use for a new page")
 	flag.StringVar(&options.spaceKey, "k", "", "Space key to use")
 	flag.StringVar(&options.filepath, "f", "", "Path to the file to upload as the page contents")
+	flag.BoolVar(&options.bodyOnly, "strip-body", false, "If the file is HTML, strip out everything except <body>")
 	command := flag.String("command", "help", "Confluence command to issue")
 	flag.Parse()
 	runCommand(*command)
@@ -34,7 +36,7 @@ func runCommand(command string) {
 	case "addpage":
 		validateBasic()
 		validatePageCRUD()
-		client.Client(&config).AddPage(options.title, options.spaceKey, options.filepath)
+		client.Client(&config).AddPage(options.title, options.spaceKey, options.filepath, options.bodyOnly)
 		break
 
 	default:
@@ -66,6 +68,7 @@ Usage for this Confluence Command Line Interface is as follows:
   -t                  The title of the page
   -k                  Space key to use
   -f                  Path to the file for the operation
+  --strip-body        Strip file to only include contents of <body>
   --command           The command to run against the site
                       Possible values include:
                       addpage: Add a new page to the service
