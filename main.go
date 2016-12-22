@@ -12,11 +12,13 @@ var config = client.ConfluenceConfig{}
 var options cliOptions
 
 type cliOptions struct {
-	title     string
-	spaceKey  string
-	filepath  string
-	bodyOnly  bool
-	stripImgs bool
+	title         string
+	spaceKey      string
+	filepath      string
+	bodyOnly      bool
+	stripImgs     bool
+	ancestorTitle string
+	ancestorID    int64
 }
 
 func main() {
@@ -26,6 +28,8 @@ func main() {
 	flag.StringVar(&options.title, "t", "", "Title to use for a new page")
 	flag.StringVar(&options.spaceKey, "k", "", "Space key to use")
 	flag.StringVar(&options.filepath, "f", "", "Path to the file to upload as the page contents")
+	flag.StringVar(&options.ancestorTitle, "A", "", "Title of the ancestor to use")
+	flag.Int64Var(&options.ancestorID, "a", 0, "ID of the ancestor to use")
 	flag.BoolVar(&options.bodyOnly, "strip-body", false, "If the file is HTML, strip out everything except <body>")
 	flag.BoolVar(&options.stripImgs, "strip-imgs", false, "If the file is HTML, strip out all <img> tags")
 	command := flag.String("command", "help", "Confluence command to issue")
@@ -67,6 +71,8 @@ Usage for this Confluence Command Line Interface is as follows:
   -u                  Username to use for Rest API
   -p                  Confluence password to use for Rest API
   -s                  The base URL of the Confluence site
+  -a                  Ancestor ID to use for new page
+  -A                  Ancestor Title to use for new page
   -t                  The title of the page
   -k                  Space key to use
   -f                  Path to the file for the operation

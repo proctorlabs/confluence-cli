@@ -3,8 +3,8 @@ package utility
 import (
 	"bytes"
 	"errors"
-	"fmt"
 	"io"
+	"strings"
 
 	"golang.org/x/net/html"
 )
@@ -13,7 +13,7 @@ func getBody(doc *html.Node) (*html.Node, error) {
 	var b *html.Node
 	var f func(*html.Node)
 	f = func(n *html.Node) {
-		if n.Type == html.ElementNode && n.Data == "body" {
+		if n.Type == html.ElementNode && strings.ToLower(n.Data) == "body" {
 			b = n
 		}
 		for c := n.FirstChild; c != nil; c = c.NextSibling {
@@ -30,11 +30,12 @@ func getBody(doc *html.Node) (*html.Node, error) {
 func stripImgs(doc *html.Node) (*html.Node, error) {
 	var f func(*html.Node, *html.Node)
 	f = func(n, parent *html.Node) {
-		if n.Type == html.ElementNode && n.Data == "img" {
+		if parent != nil && n.Type == html.ElementNode && (strings.ToLower(n.Data) == "img" || strings.ToLower(n.Data) == "script") {
 			parent.RemoveChild(n)
-		}
-		for c := n.FirstChild; c != nil; c = c.NextSibling {
-			f(c, n)
+		} else {
+			for c := n.FirstChild; c != nil; c = c.NextSibling {
+				f(c, n)
+			}
 		}
 	}
 	f(doc, nil)
@@ -67,6 +68,5 @@ func StripHTML(buf []byte, bodyOnly, stripImg bool) string {
 		}
 	}
 	result := renderNode(doc)
-	fmt.Println(result)
 	return result
 }
