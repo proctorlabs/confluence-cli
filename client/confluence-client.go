@@ -31,8 +31,12 @@ func Client(config *ConfluenceConfig) *ConfluenceClient {
 
 func (c *ConfluenceClient) doRequest(method, url string, content, responseContainer interface{}) []byte {
 	b := new(bytes.Buffer)
-	json.NewEncoder(b).Encode(content)
-	request, err := http.NewRequest(method, c.baseURL+url, b)
+	if content != nil {
+		json.NewEncoder(b).Encode(content)
+	}
+	furl := c.baseURL + url
+	fmt.Println("Full URL", furl)
+	request, err := http.NewRequest(method, furl, b)
 	request.SetBasicAuth(c.username, c.password)
 	request.Header.Add("Content-Type", "application/json; charset=utf-8")
 	if err != nil {

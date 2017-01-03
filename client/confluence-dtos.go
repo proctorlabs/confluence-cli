@@ -27,6 +27,14 @@ type ConfluencePage struct {
 	Body  *ConfluencePageBody `json:"body,omitempty"`
 }
 
+//ConfluencePageSearch stores search results for checking existing pages
+type ConfluencePageSearch struct {
+	Results []ConfluencePage `json:"results,omitempty"`
+	Start   int64            `json:"start,omitempty"`
+	Limit   int64            `json:"limit,omitempty"`
+	Size    int64            `json:"size,omitempty"`
+}
+
 func newPage(title, spaceKey string) *ConfluencePage {
 	return &ConfluencePage{
 		Title: title,

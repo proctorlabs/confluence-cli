@@ -45,6 +45,18 @@ func runCommand(command string) {
 		client.Client(&config).AddPage(options.title, options.spaceKey, options.filepath, options.bodyOnly, options.stripImgs)
 		break
 
+	case "searchpage":
+		validateBasic()
+		result := client.Client(&config).SearchPages(options.title, options.spaceKey)
+		fmt.Println("Pages Found: ", result.Size)
+		fmt.Println()
+		for index, element := range result.Results {
+			fmt.Println("Page", index)
+			fmt.Println("Title:", element.Title)
+			fmt.Println("ID:", element.ID)
+			fmt.Println("Type:", element.Type)
+			fmt.Println()
+		}
 	default:
 		printUsage()
 		break
@@ -81,5 +93,6 @@ Usage for this Confluence Command Line Interface is as follows:
   --command           The command to run against the site
                       Possible values include:
                       addpage: Add a new page to the service
+                      searchpage: Search for existing pages that match title
 `)
 }
