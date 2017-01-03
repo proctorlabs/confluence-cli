@@ -55,6 +55,7 @@ func runCommand(command string) {
 			fmt.Println("Title:", element.Title)
 			fmt.Println("ID:", element.ID)
 			fmt.Println("Type:", element.Type)
+			fmt.Println("Version:", element.Version.Number)
 			fmt.Println()
 		}
 	default:

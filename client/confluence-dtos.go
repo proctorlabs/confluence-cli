@@ -18,13 +18,19 @@ type ConfluencePageBody struct {
 	Storage *ConfluencePageBodyStorage `json:"storage,omitempty"`
 }
 
+//ConfluencePageVersion holds the version information for a page
+type ConfluencePageVersion struct {
+	Number int32 `json:"number,omitempty"`
+}
+
 //ConfluencePage stores the base page object
 type ConfluencePage struct {
-	Title string              `json:"title,omitempty"`
-	Type  string              `json:"type,omitempty"`
-	ID    string              `json:"id,omitempty"`
-	Space *ConfluenceSpace    `json:"space,omitempty"`
-	Body  *ConfluencePageBody `json:"body,omitempty"`
+	Title   string                 `json:"title,omitempty"`
+	Type    string                 `json:"type,omitempty"`
+	ID      string                 `json:"id,omitempty"`
+	Space   *ConfluenceSpace       `json:"space,omitempty"`
+	Body    *ConfluencePageBody    `json:"body,omitempty"`
+	Version *ConfluencePageVersion `json:"version,omitempty"`
 }
 
 //ConfluencePageSearch stores search results for checking existing pages
