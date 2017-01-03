@@ -42,7 +42,7 @@ func runCommand(command string) {
 	case "addpage":
 		validateBasic()
 		validatePageCRUD()
-		client.Client(&config).AddPage(options.title, options.spaceKey, options.filepath, options.bodyOnly, options.stripImgs)
+		client.Client(&config).AddOrUpdatePage(options.title, options.spaceKey, options.filepath, options.bodyOnly, options.stripImgs)
 		break
 
 	case "searchpage":

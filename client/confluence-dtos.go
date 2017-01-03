@@ -20,7 +20,7 @@ type ConfluencePageBody struct {
 
 //ConfluencePageVersion holds the version information for a page
 type ConfluencePageVersion struct {
-	Number int32 `json:"number,omitempty"`
+	Number int64 `json:"number,omitempty"`
 }
 
 //ConfluencePage stores the base page object
