@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"errors"
 	"io"
+	"log"
 	"strings"
 
 	"golang.org/x/net/html"
@@ -53,18 +54,18 @@ func renderNode(n *html.Node) string {
 func StripHTML(buf []byte, bodyOnly, stripImg bool) string {
 	doc, err := html.Parse(bytes.NewReader(buf))
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	if bodyOnly {
 		doc, err = getBody(doc)
 		if err != nil {
-			panic(err)
+			log.Fatal(err)
 		}
 	}
 	if stripImg {
 		doc, err = stripImgs(doc)
 		if err != nil {
-			panic(err)
+			log.Fatal(err)
 		}
 	}
 	result := renderNode(doc)

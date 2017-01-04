@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
 
 	"github.com/philproctor/confluence-cli/client"
 )
@@ -20,6 +21,7 @@ func main() {
 	flag.StringVar(&options.Filepath, "f", "", "Path to the file to upload as the page contents")
 	flag.StringVar(&options.AncestorTitle, "A", "", "Title of the ancestor to use")
 	flag.Int64Var(&options.AncestorID, "a", 0, "ID of the ancestor to use")
+	flag.BoolVar(&config.Debug, "d", false, "Enable debug level logging")
 	flag.BoolVar(&options.BodyOnly, "strip-body", false, "If the file is HTML, strip out everything except <body>")
 	flag.BoolVar(&options.StripImgs, "strip-imgs", false, "If the file is HTML, strip out all <img> tags")
 	command := flag.String("command", "help", "Confluence command to issue")
@@ -57,14 +59,14 @@ func runCommand(command string) {
 func validateBasic() {
 	if config.Password == "" || config.URL == "" || config.Username == "" {
 		printUsage()
-		panic("Username, password, and URL required!")
+		log.Fatal("Username, password, and URL required!")
 	}
 }
 
 func validatePageCRUD() {
 	if options.Title == "" || options.SpaceKey == "" || options.Filepath == "" {
 		printUsage()
-		panic("Space Key, Title, and File Path required for page operations!")
+		log.Fatal("Space Key, Title, and File Path required for page operations!")
 	}
 }
 
@@ -79,6 +81,7 @@ Usage for this Confluence Command Line Interface is as follows:
   -t                  The title of the page
   -k                  Space key to use
   -f                  Path to the file for the operation
+  -d                  Enable debug level logging
   --strip-body        Strip HTML file to only include contents of <body>
   --strip-imgs        Strip HTML file of all <img> tags
   --command           The command to run against the site

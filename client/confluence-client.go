@@ -3,8 +3,8 @@ package client
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"time"
 )
@@ -14,6 +14,7 @@ type ConfluenceClient struct {
 	username string
 	password string
 	baseURL  string
+	debug    bool
 	client   *http.Client
 }
 
@@ -34,6 +35,7 @@ func Client(config *ConfluenceConfig) *ConfluenceClient {
 		username: config.Username,
 		password: config.Password,
 		baseURL:  config.URL,
+		debug:    config.Debug,
 		client: &http.Client{
 			Timeout: 60 * time.Second,
 		},
@@ -46,30 +48,35 @@ func (c *ConfluenceClient) doRequest(method, url string, content, responseContai
 		json.NewEncoder(b).Encode(content)
 	}
 	furl := c.baseURL + url
-	fmt.Println("Full URL", furl)
-	fmt.Println("JSON Content:", b.String())
+	if c.debug {
+		log.Println("Full URL", furl)
+		log.Println("JSON Content:", b.String())
+	}
 	request, err := http.NewRequest(method, furl, b)
 	request.SetBasicAuth(c.username, c.password)
 	request.Header.Add("Content-Type", "application/json; charset=utf-8")
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
-	fmt.Println("Sending request to services...")
+	if c.debug {
+		log.Println("Sending request to services...")
+	}
 	response, err := c.client.Do(request)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	defer response.Body.Close()
-	fmt.Println("Response received, processing response...")
-	fmt.Println("Response status code is", response.StatusCode)
-	fmt.Println(response.Status)
+	if c.debug {
+		log.Println("Response received, processing response...")
+		log.Println("Response status code is", response.StatusCode)
+		log.Println(response.Status)
+	}
 	contents, err := ioutil.ReadAll(response.Body)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	if response.StatusCode != 200 {
-		fmt.Println("Bad response code received from server!")
-		panic(string(contents))
+		log.Fatal("Bad response code received from server: ", response.Status)
 	}
 	json.Unmarshal(contents, responseContainer)
 	return contents

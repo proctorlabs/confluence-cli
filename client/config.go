@@ -5,4 +5,5 @@ type ConfluenceConfig struct {
 	Username string
 	Password string
 	URL      string
+	Debug    bool
 }

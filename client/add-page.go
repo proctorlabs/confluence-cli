@@ -1,8 +1,8 @@
 package client
 
 import (
-	"fmt"
 	"io/ioutil"
+	"log"
 	"strconv"
 
 	"github.com/philproctor/confluence-cli/utility"
@@ -15,22 +15,22 @@ func (c *ConfluenceClient) AddOrUpdatePage(options OperationOptions) {
 	if options.AncestorTitle != "" {
 		ancestorResults := c.SearchPages(options.AncestorTitle, options.SpaceKey)
 		if ancestorResults.Size < 1 {
-			panic("Ancestor title not found!")
+			log.Fatal("Ancestor title not found!")
 		} else {
 			ancestorIDint, err := strconv.Atoi(ancestorResults.Results[0].ID)
-			fmt.Println("Found ancestor ID", ancestorIDint)
+			log.Println("Found ancestor ID", ancestorIDint)
 			if err != nil {
-				panic(err)
+				log.Fatal(err)
 			}
 			ancestorID = int64(ancestorIDint)
 		}
 	}
 	if results.Size > 0 {
-		fmt.Println("Page found, updating page...")
+		log.Println("Page found, updating page...")
 		item := results.Results[0]
 		c.UpdatePage(options.Title, options.SpaceKey, options.Filepath, options.BodyOnly, options.StripImgs, item.ID, item.Version.Number+1, ancestorID)
 	} else {
-		fmt.Println("Page not found, adding page...")
+		log.Println("Page not found, adding page...")
 		c.AddPage(options.Title, options.SpaceKey, options.Filepath, options.BodyOnly, options.StripImgs, ancestorID)
 	}
 }
@@ -46,7 +46,7 @@ func (c *ConfluenceClient) AddPage(title, spaceKey, filepath string, bodyOnly, s
 	response := &ConfluencePage{}
 	page.Body.Storage.Value = getBodyFromFile(filepath, bodyOnly, stripImgs)
 	c.doRequest("POST", "/rest/api/content/", page, response)
-	fmt.Println("ConfluencePage Object Response", response)
+	log.Println("ConfluencePage Object Response", response)
 }
 
 //UpdatePage adds a new page to the space with the given title
@@ -62,13 +62,13 @@ func (c *ConfluenceClient) UpdatePage(title, spaceKey, filepath string, bodyOnly
 	response := &ConfluencePage{}
 	page.Body.Storage.Value = getBodyFromFile(filepath, bodyOnly, stripImgs)
 	c.doRequest("PUT", "/rest/api/content/"+ID, page, response)
-	fmt.Println("ConfluencePage Object Response", response)
+	log.Println("ConfluencePage Object Response", response)
 }
 
 func getBodyFromFile(filepath string, bodyOnly, stripImgs bool) string {
 	buf, err := ioutil.ReadFile(filepath)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	if bodyOnly == false {
 		return string(buf)
