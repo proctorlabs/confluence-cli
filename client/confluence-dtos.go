@@ -23,14 +23,20 @@ type ConfluencePageVersion struct {
 	Number int64 `json:"number,omitempty"`
 }
 
+//ConfluencePageAncestor holds the ID of a specific ancestor to a confluence page
+type ConfluencePageAncestor struct {
+	ID int64 `json:"id,omitempty"`
+}
+
 //ConfluencePage stores the base page object
 type ConfluencePage struct {
-	Title   string                 `json:"title,omitempty"`
-	Type    string                 `json:"type,omitempty"`
-	ID      string                 `json:"id,omitempty"`
-	Space   *ConfluenceSpace       `json:"space,omitempty"`
-	Body    *ConfluencePageBody    `json:"body,omitempty"`
-	Version *ConfluencePageVersion `json:"version,omitempty"`
+	Title     string                   `json:"title,omitempty"`
+	Type      string                   `json:"type,omitempty"`
+	ID        string                   `json:"id,omitempty"`
+	Ancestors []ConfluencePageAncestor `json:"ancestors,omitempty"`
+	Space     *ConfluenceSpace         `json:"space,omitempty"`
+	Body      *ConfluencePageBody      `json:"body,omitempty"`
+	Version   *ConfluencePageVersion   `json:"version,omitempty"`
 }
 
 //ConfluencePageSearch stores search results for checking existing pages

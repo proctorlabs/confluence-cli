@@ -17,6 +17,17 @@ type ConfluenceClient struct {
 	client   *http.Client
 }
 
+//OperationOptions holds all the options that apply to the specified operation
+type OperationOptions struct {
+	Title         string
+	SpaceKey      string
+	Filepath      string
+	BodyOnly      bool
+	StripImgs     bool
+	AncestorTitle string
+	AncestorID    int64
+}
+
 //Client returns a new instance of the client
 func Client(config *ConfluenceConfig) *ConfluenceClient {
 	return &ConfluenceClient{
@@ -36,6 +47,7 @@ func (c *ConfluenceClient) doRequest(method, url string, content, responseContai
 	}
 	furl := c.baseURL + url
 	fmt.Println("Full URL", furl)
+	fmt.Println("JSON Content:", b.String())
 	request, err := http.NewRequest(method, furl, b)
 	request.SetBasicAuth(c.username, c.password)
 	request.Header.Add("Content-Type", "application/json; charset=utf-8")

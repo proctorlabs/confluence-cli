@@ -9,29 +9,19 @@ import (
 
 var config = client.ConfluenceConfig{}
 
-var options cliOptions
-
-type cliOptions struct {
-	title         string
-	spaceKey      string
-	filepath      string
-	bodyOnly      bool
-	stripImgs     bool
-	ancestorTitle string
-	ancestorID    int64
-}
+var options = client.OperationOptions{}
 
 func main() {
 	flag.StringVar(&config.Username, "u", "", "Confluence username")
 	flag.StringVar(&config.Password, "p", "", "Confluence password")
 	flag.StringVar(&config.URL, "s", "", "The base URL of the Confluence page")
-	flag.StringVar(&options.title, "t", "", "Title to use for a new page")
-	flag.StringVar(&options.spaceKey, "k", "", "Space key to use")
-	flag.StringVar(&options.filepath, "f", "", "Path to the file to upload as the page contents")
-	flag.StringVar(&options.ancestorTitle, "A", "", "Title of the ancestor to use")
-	flag.Int64Var(&options.ancestorID, "a", 0, "ID of the ancestor to use")
-	flag.BoolVar(&options.bodyOnly, "strip-body", false, "If the file is HTML, strip out everything except <body>")
-	flag.BoolVar(&options.stripImgs, "strip-imgs", false, "If the file is HTML, strip out all <img> tags")
+	flag.StringVar(&options.Title, "t", "", "Title to use for a new page")
+	flag.StringVar(&options.SpaceKey, "k", "", "Space key to use")
+	flag.StringVar(&options.Filepath, "f", "", "Path to the file to upload as the page contents")
+	flag.StringVar(&options.AncestorTitle, "A", "", "Title of the ancestor to use")
+	flag.Int64Var(&options.AncestorID, "a", 0, "ID of the ancestor to use")
+	flag.BoolVar(&options.BodyOnly, "strip-body", false, "If the file is HTML, strip out everything except <body>")
+	flag.BoolVar(&options.StripImgs, "strip-imgs", false, "If the file is HTML, strip out all <img> tags")
 	command := flag.String("command", "help", "Confluence command to issue")
 	flag.Parse()
 	runCommand(*command)
@@ -42,12 +32,12 @@ func runCommand(command string) {
 	case "addpage":
 		validateBasic()
 		validatePageCRUD()
-		client.Client(&config).AddOrUpdatePage(options.title, options.spaceKey, options.filepath, options.bodyOnly, options.stripImgs)
+		client.Client(&config).AddOrUpdatePage(options)
 		break
 
 	case "searchpage":
 		validateBasic()
-		result := client.Client(&config).SearchPages(options.title, options.spaceKey)
+		result := client.Client(&config).SearchPages(options.Title, options.SpaceKey)
 		fmt.Println("Pages Found: ", result.Size)
 		fmt.Println()
 		for index, element := range result.Results {
@@ -72,7 +62,7 @@ func validateBasic() {
 }
 
 func validatePageCRUD() {
-	if options.title == "" || options.spaceKey == "" || options.filepath == "" {
+	if options.Title == "" || options.SpaceKey == "" || options.Filepath == "" {
 		printUsage()
 		panic("Space Key, Title, and File Path required for page operations!")
 	}
