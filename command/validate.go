@@ -20,7 +20,7 @@ confluence-cli [flags] <command>
 authentication
   -u                  Confluence username
   -p                  Confluence password
-  -s                  Confluence site base url (e.g. https://companyname.atlassian.net/wiki)
+  -s                  Confluence site base url (e.g. https://example.atlassian.net/wiki)
 
 command flags
   -a                  Ancestor ID to use for new page
@@ -33,6 +33,6 @@ command flags
   --strip-imgs        Strip HTML file of all <img> tags
 
   <command>           The command to run
-                         add-page: Add a new page to the service
+                         add-or-update-page: Add a new page to the service or update if it already exists
                          find-page: Search for existing pages that match title`)
 }

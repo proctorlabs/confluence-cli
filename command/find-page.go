@@ -8,15 +8,18 @@ import (
 func findPage() {
 	validateFindPage()
 	result := restClient.SearchPages(options.Title, options.SpaceKey)
-	fmt.Println("Pages Found: ", result.Size)
-	fmt.Println()
-	for index, element := range result.Results {
-		fmt.Println("Page", index)
+
+	if result.Size > 0 {
+		fmt.Println("Page Found!")
+		fmt.Println()
+	} else {
+		fmt.Println("Page not found!")
+	}
+
+	for _, element := range result.Results {
 		fmt.Println("Title:", element.Title)
 		fmt.Println("ID:", element.ID)
-		fmt.Println("Type:", element.Type)
 		fmt.Println("Version:", element.Version.Number)
-		fmt.Println()
 	}
 }
 
