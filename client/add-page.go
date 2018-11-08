@@ -9,7 +9,7 @@ import (
 )
 
 //AddOrUpdatePage checks for an existing page then calls AddPage or UpdatePage depending on the result
-func (c *ConfluenceClient) AddOrUpdatePage(options OperationOptions) {
+func (c *ConfluenceClient) AddOrUpdatePage(options *OperationOptions) {
 	results := c.SearchPages(options.Title, options.SpaceKey)
 	ancestorID := options.AncestorID
 	if options.AncestorTitle != "" {
@@ -45,6 +45,7 @@ func (c *ConfluenceClient) AddPage(title, spaceKey, filepath string, bodyOnly, s
 	}
 	response := &ConfluencePage{}
 	page.Body.Storage.Value = getBodyFromFile(filepath, bodyOnly, stripImgs)
+	//page.Body.Storage.Representation = "wiki"
 	c.doRequest("POST", "/rest/api/content/", page, response)
 	log.Println("ConfluencePage Object Response", response)
 }
@@ -61,6 +62,7 @@ func (c *ConfluenceClient) UpdatePage(title, spaceKey, filepath string, bodyOnly
 	}
 	response := &ConfluencePage{}
 	page.Body.Storage.Value = getBodyFromFile(filepath, bodyOnly, stripImgs)
+	//page.Body.Storage.Representation = "wiki"
 	c.doRequest("PUT", "/rest/api/content/"+ID, page, response)
 	log.Println("ConfluencePage Object Response", response)
 }
