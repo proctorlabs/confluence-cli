@@ -14,9 +14,17 @@ func Run(command string, config *client.ConfluenceConfig, opts *OperationOptions
 	options = opts
 
 	switch command {
-	case "add-or-update-page":
+	case "add-page":
 		prepareClient(config)
 		addPage()
+
+	case "add-or-update-page":
+		prepareClient(config)
+		addOrUpdatePage()
+
+	case "update-page":
+		prepareClient(config)
+		updatePage()
 
 	case "find-page":
 		prepareClient(config)

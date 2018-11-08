@@ -33,6 +33,8 @@ command flags
   --strip-imgs        Strip HTML file of all <img> tags
 
   <command>           The command to run
-                         add-or-update-page: Add a new page to the service or update if it already exists
+                         add-page: Add a new page to Confluence
+                         add-or-update-page: Add a new page to Confluence or update if it already exists
+                         update-page: Update an existing page on confluence
                          find-page: Search for existing pages that match title`)
 }
