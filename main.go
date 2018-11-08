@@ -9,7 +9,7 @@ import (
 
 func main() {
 	var config = client.ConfluenceConfig{}
-	var options = client.OperationOptions{}
+	var options = command.OperationOptions{}
 
 	flag.StringVar(&config.Username, "u", "", "Confluence username")
 	flag.StringVar(&config.Password, "p", "", "Confluence password")

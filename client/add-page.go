@@ -3,37 +3,9 @@ package client
 import (
 	"io/ioutil"
 	"log"
-	"strconv"
 
 	"github.com/philproctor/confluence-cli/utility"
 )
-
-//AddOrUpdatePage checks for an existing page then calls AddPage or UpdatePage depending on the result
-func (c *ConfluenceClient) AddOrUpdatePage(options *OperationOptions) {
-	results := c.SearchPages(options.Title, options.SpaceKey)
-	ancestorID := options.AncestorID
-	if options.AncestorTitle != "" {
-		ancestorResults := c.SearchPages(options.AncestorTitle, options.SpaceKey)
-		if ancestorResults.Size < 1 {
-			log.Fatal("Ancestor title not found!")
-		} else {
-			ancestorIDint, err := strconv.Atoi(ancestorResults.Results[0].ID)
-			log.Println("Found ancestor ID", ancestorIDint)
-			if err != nil {
-				log.Fatal(err)
-			}
-			ancestorID = int64(ancestorIDint)
-		}
-	}
-	if results.Size > 0 {
-		log.Println("Page found, updating page...")
-		item := results.Results[0]
-		c.UpdatePage(options.Title, options.SpaceKey, options.Filepath, options.BodyOnly, options.StripImgs, item.ID, item.Version.Number+1, ancestorID)
-	} else {
-		log.Println("Page not found, adding page...")
-		c.AddPage(options.Title, options.SpaceKey, options.Filepath, options.BodyOnly, options.StripImgs, ancestorID)
-	}
-}
 
 //AddPage adds a new page to the space with the given title
 func (c *ConfluenceClient) AddPage(title, spaceKey, filepath string, bodyOnly, stripImgs bool, ancestor int64) {

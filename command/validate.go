@@ -9,8 +9,7 @@ import (
 
 func validateClientDetails(config *client.ConfluenceConfig) {
 	if config.Password == "" || config.URL == "" || config.Username == "" {
-		printUsage()
-		log.Fatal("Username, password, and URL required!")
+		log.Fatal("Username, password, and URL required for this operation!")
 	}
 }
 

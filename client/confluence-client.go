@@ -18,17 +18,6 @@ type ConfluenceClient struct {
 	client   *http.Client
 }
 
-//OperationOptions holds all the options that apply to the specified operation
-type OperationOptions struct {
-	Title         string
-	SpaceKey      string
-	Filepath      string
-	BodyOnly      bool
-	StripImgs     bool
-	AncestorTitle string
-	AncestorID    int64
-}
-
 //Client returns a new instance of the client
 func Client(config *ConfluenceConfig) *ConfluenceClient {
 	return &ConfluenceClient{

@@ -2,7 +2,7 @@
 
 This is a command line interface for Confluence. Usage of the command line is as below:
 
-```
+``` bash
 Usage for this Confluence Command Line Interface is as follows:
 confluence-cli [flags] <command>
 
@@ -29,11 +29,13 @@ command flags
 As such, some example commands that can be run:
 
 To add or update a page with the title "New Page Title".
-```
+
+``` bash
 confluence-cli -u test-user -p test-password -s http://localhost:8080/wiki -k TST -t "New Page Title" -f path/to/file add-page
 ```
 
 Same as above, except ensure the page is underneath "Ancestor Page" in the wiki. Use -a instead to add underneath by ID instead of title
-```
+
+``` bash
 confluence-cli -u test-user -p test-password -s http://localhost:8080/wiki -k TST -A "Ancestor Page" -t "New Page Title" -f path/to/file add-page
 ```

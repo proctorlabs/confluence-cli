@@ -3,13 +3,11 @@ package command
 import (
 	"fmt"
 	"log"
-
-	"github.com/philproctor/confluence-cli/client"
 )
 
-func findPage(config *client.ConfluenceConfig, options *client.OperationOptions) {
-	validateClientDetails(config)
-	result := client.Client(config).SearchPages(options.Title, options.SpaceKey)
+func findPage() {
+	validateFindPage()
+	result := restClient.SearchPages(options.Title, options.SpaceKey)
 	fmt.Println("Pages Found: ", result.Size)
 	fmt.Println()
 	for index, element := range result.Results {
@@ -22,9 +20,8 @@ func findPage(config *client.ConfluenceConfig, options *client.OperationOptions)
 	}
 }
 
-func validateFindPage(options *client.OperationOptions) {
+func validateFindPage() {
 	if options.Title == "" || options.SpaceKey == "" {
-		printUsage()
 		log.Fatal("Space Key and Title required to find page!")
 	}
 }
