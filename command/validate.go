@@ -28,6 +28,7 @@ command flags
   -t                  The title of the page
   -k                  Space key to use
   -f                  Path to the file to process/upload
+  -R                  Representation of the file to upload (storage, wiki, can be any supported by confluence convert api)
   -d                  Enable debug level logging
   --strip-body        Strip HTML file to only include contents of <body>
   --strip-imgs        Strip HTML file of all <img> tags

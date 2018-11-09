@@ -47,6 +47,12 @@ type ConfluencePageSearch struct {
 	Size    int64            `json:"size,omitempty"`
 }
 
+//ConfluenceConvert is used to store the conversion request or result for a convert command
+type ConfluenceConvert struct {
+	Value          string `json:"value,omitempty"`
+	Representation string `json:"representation,omitempty"`
+}
+
 func newPage(title, spaceKey string) *ConfluencePage {
 	return &ConfluencePage{
 		Title: title,

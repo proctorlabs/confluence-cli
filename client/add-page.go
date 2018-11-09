@@ -16,7 +16,7 @@ func (c *ConfluenceClient) AddPage(title, spaceKey, body string, ancestor int64)
 	page.Body.Storage.Value = body
 	//page.Body.Storage.Representation = "wiki"
 	c.doRequest("POST", "/rest/api/content/", page, response)
-	log.Println("ConfluencePage Object Response", response)
+	log.Println("Confluence page added with ID", response.ID, "and version", response.Version.Number)
 }
 
 //UpdatePage adds a new page to the space with the given title
@@ -33,5 +33,5 @@ func (c *ConfluenceClient) UpdatePage(title, spaceKey, body string, ID string, v
 	page.Body.Storage.Value = body
 	//page.Body.Storage.Representation = "wiki"
 	c.doRequest("PUT", "/rest/api/content/"+ID, page, response)
-	log.Println("ConfluencePage Object Response", response)
+	log.Println("Confluence page updated with ID", response.ID, "and version", response.Version.Number)
 }

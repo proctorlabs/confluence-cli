@@ -17,6 +17,7 @@ type OperationOptions struct {
 	StripImgs     bool
 	AncestorTitle string
 	AncestorID    int64
+	Format        string
 	body          string
 }
 
@@ -28,6 +29,9 @@ func processFlags() {
 	}
 	if options.Filepath != "" {
 		processAndSetBody()
+	}
+	if options.Format != "storage" {
+		convertBodyRepresentation()
 	}
 }
 
@@ -56,4 +60,8 @@ func processAndSetBody() {
 		options.body = utility.StripHTML(buf, options.BodyOnly, options.StripImgs)
 	}
 	log.Println("Successfully processed file: ", options.Filepath)
+}
+
+func convertBodyRepresentation() {
+	options.body = restClient.ConvertToStorage(options.body, options.Format)
 }
