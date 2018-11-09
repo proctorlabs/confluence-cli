@@ -30,6 +30,10 @@ func Run(command string, config *client.ConfluenceConfig, opts *OperationOptions
 		prepareClient(config)
 		findPage()
 
+	case "add-attachment":
+		prepareClient(config)
+		addAttachment()
+
 	case "help", "":
 		printUsage()
 

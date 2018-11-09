@@ -3,6 +3,7 @@ package command
 import (
 	"io/ioutil"
 	"log"
+	"path/filepath"
 	"strconv"
 
 	"github.com/philproctor/confluence-cli/utility"
@@ -19,6 +20,7 @@ type OperationOptions struct {
 	AncestorID    int64
 	Format        string
 	body          string
+	filename      string
 }
 
 var options *OperationOptions
@@ -28,6 +30,7 @@ func processFlags() {
 		setAncestorFromTitle()
 	}
 	if options.Filepath != "" {
+		options.filename = filepath.Base(options.Filepath)
 		processAndSetBody()
 	}
 	if options.Format != "storage" {

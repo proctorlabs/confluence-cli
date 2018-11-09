@@ -37,5 +37,6 @@ command flags
                          add-page: Add a new page to Confluence
                          add-or-update-page: Add a new page to Confluence or update if it already exists
                          update-page: Update an existing page on confluence
+                         add-attachment: Add or update an attachment to the specified page
                          find-page: Search for existing pages that match title`)
 }
