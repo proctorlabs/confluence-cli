@@ -19,6 +19,7 @@ type OperationOptions struct {
 	AncestorTitle string
 	AncestorID    int64
 	Format        string
+	CleanAdoc     bool
 	body          string
 	filename      string
 }
@@ -57,14 +58,14 @@ func processAndSetBody() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	if options.BodyOnly == false && options.StripImgs == false {
+	if options.BodyOnly == false && options.StripImgs == false && options.CleanAdoc == false {
 		options.body = string(buf)
 	} else {
-		options.body = utility.StripHTML(buf, options.BodyOnly, options.StripImgs)
+		options.body = utility.CleanHTML(buf, options.BodyOnly, options.StripImgs, options.CleanAdoc)
 	}
 	log.Println("Successfully processed file: ", options.Filepath)
 }
 
 func convertBodyRepresentation() {
-	options.body = restClient.ConvertToStorage(options.body, options.Format)
+	options.body = restClient.ConvertToStorage(options.body, options.Format, options.Title, options.SpaceKey)
 }

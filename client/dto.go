@@ -53,6 +53,13 @@ type ConfluenceConvert struct {
 	Representation string `json:"representation,omitempty"`
 }
 
+//TinyMceRequest is used for the undocumented TineMCE API
+type TinyMceRequest struct {
+	EntityID string `json:"entityId,omitempty"`
+	SpaceKey string `json:"spaceKey,omitempty"`
+	Wiki     string `json:"wiki,omitempty"`
+}
+
 func newPage(title, spaceKey string) *ConfluencePage {
 	return &ConfluencePage{
 		Title: title,

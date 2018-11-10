@@ -65,6 +65,9 @@ func (c *ConfluenceClient) doRequest(method, url string, content, responseContai
 	if err != nil {
 		log.Fatal(err)
 	}
+	if c.debug {
+		log.Println("Response from service...", string(contents))
+	}
 	if response.StatusCode != 200 {
 		log.Fatal("Bad response code received from server: ", response.Status)
 	}

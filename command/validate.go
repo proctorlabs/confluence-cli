@@ -32,6 +32,7 @@ command flags
   -d                  Enable debug level logging
   --strip-body        Strip HTML file to only include contents of <body>
   --strip-imgs        Strip HTML file of all <img> tags
+  --clean-adoc        Aggressively cleans HTML generated from .adoc to make it play nicely with confluence
 
   <command>           The command to run
                          add-page: Add a new page to Confluence
