@@ -1,6 +1,7 @@
 package command
 
 import (
+	"fmt"
 	"io/ioutil"
 	"log"
 	"path/filepath"
@@ -20,6 +21,7 @@ type OperationOptions struct {
 	AncestorID    int64
 	Format        string
 	CleanAdoc     bool
+	HtmlMacro     bool
 	body          string
 	filename      string
 }
@@ -58,8 +60,13 @@ func processAndSetBody() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	if options.BodyOnly == false && options.StripImgs == false && options.CleanAdoc == false {
+	if options.BodyOnly == false && options.StripImgs == false &&
+		options.CleanAdoc == false && options.HtmlMacro == false {
 		options.body = string(buf)
+	} else if options.HtmlMacro == true {
+		// Wrap the HTML contents with the header and footer of the Confluence HTML macro
+		// https://community.atlassian.com/t5/Answers-Developer-Questions/Confluence-create-page-with-custom-image/qaq-p/471978#M9634
+		options.body = fmt.Sprintf("<ac:structured-macro ac:name = \"html\"><ac:plain-text-body><![CDATA[%s]]></ac:plain-text-body></ac:structured-macro>", string(buf))
 	} else {
 		options.body = utility.CleanHTML(buf, options.BodyOnly, options.StripImgs, options.CleanAdoc)
 	}
