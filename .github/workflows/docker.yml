@@ -1,0 +1,34 @@
+name: Build Docker Images
+on:
+  push:
+    tags: ['v**']
+
+jobs:
+  docker:
+    name: Build docker image for cfcli
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: crazy-max/ghaction-docker-buildx@v3
+        with:
+          buildx-version: latest
+          qemu-version: latest
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Docker Login
+        env:
+          DOCKER_USERNAME: '${{ secrets.DOCKER_USER }}'
+          DOCKER_PASSWORD: '${{ secrets.DOCKER_TOKEN }}'
+        run: |-
+          docker login -u "${DOCKER_USERNAME}" -p "${DOCKER_PASSWORD}"
+
+      - name: Run Crossbuild
+        run: |-
+          docker buildx build \
+            --platform linux/amd64,linux/arm/v7,linux/arm64 \
+            -t "proctorlabs/confluence-cli:latest" \
+            -t "proctorlabs/confluence-cli:$(date '+%Y%m%d%H%M')" --push .

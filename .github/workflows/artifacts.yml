@@ -1,0 +1,75 @@
+name: Publish Release
+on:
+  push:
+    tags: ['v**']
+
+jobs:
+  build-artifacts:
+    name: Build Artifacts
+    runs-on: 'ubuntu-latest'
+
+    steps:
+      - name: Install Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: '1.14.x'
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build artifacts
+        run: |-
+          GOARCH=amd64 go build -trimpath main.go && mv main cfcli-amd64
+          GOARCH=arm64 go build -trimpath main.go && mv main cfcli-arm64
+          GOARCH=arm go build -trimpath main.go && mv main cfcli-arm
+
+      - name: Package artifacts
+        run: |-
+          mv cfcli-amd64 cfcli && tar -cJf 'cfcli-amd64.tar.xz' cfcli && rm cfcli
+          mv cfcli-arm64 cfcli && tar -cJf 'cfcli-arm64.tar.xz' cfcli && rm cfcli
+          mv cfcli-arm cfcli && tar -cJf 'cfcli-arm.tar.xz' cfcli && rm cfcli
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: ''
+          draft: false
+          prerelease: false
+
+      - name: Upload amd64 artifact
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./cfcli-amd64.tar.xz
+          asset_name: cfcli-amd64.tar.xz
+          asset_content_type: application/x-gtar
+
+      - name: Upload arm64 artifact
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./cfcli-arm64.tar.xz
+          asset_name: cfcli-arm64.tar.xz
+          asset_content_type: application/x-gtar
+
+      - name: Upload arm artifact
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./cfcli-arm.tar.xz
+          asset_name: cfcli-arm.tar.xz
+          asset_content_type: application/x-gtar

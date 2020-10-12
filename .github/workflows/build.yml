@@ -3,12 +3,7 @@ on: [push, pull_request]
 
 jobs:
   cfcli:
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-
-    runs-on: ${{ matrix.os }}
-
+    runs-on: 'ubuntu-latest'
     steps:
       - name: Install Go
         uses: actions/setup-go@v2
