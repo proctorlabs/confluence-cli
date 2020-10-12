@@ -15,7 +15,7 @@ func validateClientDetails(config *client.ConfluenceConfig) {
 
 func printUsage() {
 	fmt.Println(`Usage for this Confluence Command Line Interface is as follows:
-confluence-cli [flags] <command>
+cfcli [flags] <command>
 
 authentication
   -u                  Confluence username

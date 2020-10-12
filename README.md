@@ -4,7 +4,7 @@ This is a command line interface for Confluence. Usage of the command line is as
 
 ``` bash
 Usage for this Confluence Command Line Interface is as follows:
-confluence-cli [flags] <command>
+cfcli [flags] <command>
 
 authentication
   -u                  Confluence username
@@ -36,13 +36,13 @@ As such, some example commands that can be run:
 To add a page with the title "New Page Title".
 
 ``` bash
-confluence-cli -u test-user -p test-password -s https://example.atlassian.net/wiki -k TST -t "New Page Title" -f path/to/file add-page
+cfcli -u test-user -p test-password -s https://example.atlassian.net/wiki -k TST -t "New Page Title" -f path/to/file add-page
 ```
 
 Same as above, except ensure the page is underneath "Ancestor Page" in the wiki. Use -a instead to add underneath by ID instead of title
 
 ``` bash
-confluence-cli -u test-user -p test-password -s https://example.atlassian.net/wiki -k TST -A "Ancestor Page" -t "New Page Title" -f path/to/file add-page
+cfcli -u test-user -p test-password -s https://example.atlassian.net/wiki -k TST -A "Ancestor Page" -t "New Page Title" -f path/to/file add-page
 ```
 
 The easiest way to install and run this tool is with docker. Note that you must volume mount the file you want to upload inside the container.
