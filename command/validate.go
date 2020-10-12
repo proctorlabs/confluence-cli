@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/philproctor/confluence-cli/client"
+	"github.com/proctorlabs/confluence-cli/client"
 )
 
 func validateClientDetails(config *client.ConfluenceConfig) {

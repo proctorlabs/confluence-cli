@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"strconv"
 
-	"github.com/philproctor/confluence-cli/utility"
+	"github.com/proctorlabs/confluence-cli/utility"
 )
 
 //OperationOptions holds all the options that apply to the specified operation

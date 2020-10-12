@@ -3,8 +3,8 @@ package main
 import (
 	"flag"
 
-	"github.com/philproctor/confluence-cli/client"
-	"github.com/philproctor/confluence-cli/command"
+	"github.com/proctorlabs/confluence-cli/client"
+	"github.com/proctorlabs/confluence-cli/command"
 )
 
 func main() {

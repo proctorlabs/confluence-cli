@@ -3,7 +3,7 @@ package command
 import (
 	"log"
 
-	"github.com/philproctor/confluence-cli/client"
+	"github.com/proctorlabs/confluence-cli/client"
 )
 
 var restClient *client.ConfluenceClient

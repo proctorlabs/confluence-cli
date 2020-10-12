@@ -48,5 +48,5 @@ confluence-cli -u test-user -p test-password -s https://example.atlassian.net/wi
 The easiest way to install and run this tool is with docker. Note that you must volume mount the file you want to upload inside the container.
 
 ``` bash
-docker run --rm -v /path/to/file.txt:/in.txt philproctor/confluence-cli -u test-user -p test-password -s https://example.atlassian.net/wiki -A 'Ancestor Page' -k TST -f /in.txt -t 'Page Title' -R 'wiki' add-or-update-page
+docker run --rm -v /path/to/file.txt:/in.txt proctorlabs/confluence-cli -u test-user -p test-password -s https://example.atlassian.net/wiki -A 'Ancestor Page' -k TST -f /in.txt -t 'Page Title' -R 'wiki' add-or-update-page
 ```
