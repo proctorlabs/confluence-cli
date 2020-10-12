@@ -30,4 +30,4 @@ jobs:
         run: |-
           docker buildx build \
             --platform linux/amd64,linux/arm/v7,linux/arm64 \
-            -t "proctorlabs/confluence-cli:${{ github.ref }}" --push .
+            -t proctorlabs/confluence-cli:$(echo -n ${{ github.ref }} | sed "s/^refs\/tags\///g") --push .
